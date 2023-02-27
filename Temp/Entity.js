@@ -15,8 +15,8 @@ class Ogre {
         // Set any additional properties of the DeadKiddo instance here, if needed
         return deadKiddo;
     }
-    move() {
-        // TODO
+    move(position) {
+        this.position = position;
     }
 }
 exports.Ogre = Ogre;
@@ -51,8 +51,8 @@ class Kiddo {
         this.displayType = displayType;
         this.symbol = symbol;
     }
-    move() {
-        // TODO: implémenter la logique de déplacement en fonction de movementType
+    move(position) {
+        this.position = position;
     }
     display() {
         // TODO: implémenter la logique d'affichage en fonction de displayType
