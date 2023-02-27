@@ -12,6 +12,7 @@ class Ogre {
     }
     eat(kiddo) {
         const deadKiddo = new DeadKiddo(kiddo.position);
+        console.log("position", kiddo.position);
         // Set any additional properties of the DeadKiddo instance here, if needed
         return deadKiddo;
     }

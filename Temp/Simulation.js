@@ -38,6 +38,7 @@ class Simulation {
                     }
                 });
                 console.log(this.board.console);
+                console.log('générer une nouvelle matrice', this.data);
                 this.board.console = this.board.generateBlankConsole();
                 for (let data of this.data) {
                     this.board.console[data.position.x][data.position.y] = data.symbol;
