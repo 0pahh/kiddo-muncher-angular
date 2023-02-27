@@ -1,11 +1,13 @@
 export interface Entity {
     position: { x: number; y: number };
+    lastDirection?: string;
     symbol: string;
-    move(): void;
+    move(position: { x: number; y: number }): void;
 }
 
 export class Ogre implements Entity {
     position!: { x: number; y: number };
+    lastDirection?: string;
     symbol: string = 'O';
 
     createInstance(position: { x: number; y: number }): Ogre {
@@ -20,8 +22,8 @@ export class Ogre implements Entity {
         // Set any additional properties of the DeadKiddo instance here, if needed
         return deadKiddo;
     }
-    move() {
-        // TODO
+    move(position: { x: number; y: number }) {
+        this.position = position;
     }
 }
 
@@ -53,6 +55,7 @@ export class Kiddo implements Entity {
     position: { x: number; y: number };
     movementType: MovementType;
     displayType: DisplayType;
+    lastDirection?: string;
     symbol!: string;
 
     constructor(
@@ -67,8 +70,8 @@ export class Kiddo implements Entity {
         this.symbol = symbol;
     }
 
-    move() {
-        // TODO: implémenter la logique de déplacement en fonction de movementType
+    move(position: { x: number; y: number }) {
+        this.position = position;
     }
 
     display() {

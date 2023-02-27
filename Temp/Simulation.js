@@ -8,7 +8,7 @@ const Entity_1 = require("./Entity");
 class Simulation {
     constructor() {
         this.start = false;
-        this.nbTurns = 1;
+        this.nbTurns = 10;
         this.board = new Board_1.Board();
         this.data = [];
         this.generateData = () => {
@@ -22,6 +22,7 @@ class Simulation {
             for (let i = 0; i < this.nbTurns; i++) {
                 this.data.forEach((entity) => {
                     if (entity instanceof Entity_1.Ogre) {
+                        let hasMoved = false;
                         let aroundEntities = this.getEntitiesAround(entity); // Get entities around the ogre
                         const directions = ['up', 'down', 'left', 'right'];
                         for (const direction of directions) {
@@ -30,15 +31,36 @@ class Simulation {
                                 const deadKiddo = entity.eat(kiddo);
                                 const index = this.data.indexOf(kiddo);
                                 this.data.splice(index, 1, deadKiddo);
+                                entity.position = deadKiddo.position;
+                                hasMoved = true;
                                 break;
+                            }
+                        }
+                        if (!hasMoved) {
+                            if (aroundEntities.up === null && entity.position.x > 0) {
+                                entity.move({ x: entity.position.x - 1, y: entity.position.y });
+                            }
+                            else if (aroundEntities.down === null && entity.position.x < this.board.nbRows - 1) {
+                                entity.move({ x: entity.position.x + 1, y: entity.position.y });
+                            }
+                            else if (aroundEntities.left === null && entity.position.y > 0) {
+                                entity.move({ x: entity.position.x, y: entity.position.y - 1 });
+                            }
+                            else if (aroundEntities.right === null && entity.position.y < this.board.nbCols - 1) {
+                                entity.move({ x: entity.position.x, y: entity.position.y + 1 });
                             }
                         }
                     }
                 });
-                console.log(this.board.console);
-                console.log('générer une nouvelle matrice', this.data);
                 this.board.console = this.board.generateBlankConsole();
                 for (let data of this.data) {
+                    if (data instanceof Entity_1.DeadKiddo) {
+                        let existingEntity = this.data.find((entity) => entity.position.x === data.position.x && entity.position.y === data.position.y);
+                        if (existingEntity)
+                            continue;
+                        else
+                            this.board.console[data.position.x][data.position.y] = data.symbol;
+                    }
                     this.board.console[data.position.x][data.position.y] = data.symbol;
                 }
                 console.log(this.board.console);
@@ -90,6 +112,7 @@ class Simulation {
             }, {});
             return entities;
         };
+        this.newTurn = () => { };
         this.generateData();
     }
 }
