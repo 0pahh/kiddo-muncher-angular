@@ -27,14 +27,15 @@ export class Simulation {
                 if (entity instanceof Ogre) {
                     let aroundEntities = this.getEntitiesAround(entity); // Get entities around the ogre
 
-                    if (aroundEntities.up instanceof Kiddo) {
-                        aroundEntities.up = entity.eat(aroundEntities.up);
-                    } else if (aroundEntities.down instanceof Kiddo) {
-                        aroundEntities.down = entity.eat(aroundEntities.down);
-                    } else if (aroundEntities.left instanceof Kiddo) {
-                        aroundEntities.left = entity.eat(aroundEntities.left);
-                    } else if (aroundEntities.right instanceof Kiddo) {
-                        aroundEntities.right = entity.eat(aroundEntities.right);
+                    const directions = ['up', 'down', 'left', 'right'];
+                    for (const direction of directions) {
+                        const kiddo = aroundEntities[direction];
+                        if (kiddo instanceof Kiddo) {
+                            const deadKiddo = entity.eat(kiddo);
+                            const index = this.data.indexOf(kiddo);
+                            this.data.splice(index, 1, deadKiddo);
+                            break;
+                        }
                     }
                 }
             });
@@ -106,4 +107,6 @@ export class Simulation {
         }, {} as Record<string, Entity | Decor | null>);
         return entities;
     };
+
+    newTurn = (): void => {};
 }

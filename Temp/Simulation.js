@@ -23,17 +23,15 @@ class Simulation {
                 this.data.forEach((entity) => {
                     if (entity instanceof Entity_1.Ogre) {
                         let aroundEntities = this.getEntitiesAround(entity); // Get entities around the ogre
-                        if (aroundEntities.up instanceof Entity_1.Kiddo) {
-                            aroundEntities.up = entity.eat(aroundEntities.up);
-                        }
-                        else if (aroundEntities.down instanceof Entity_1.Kiddo) {
-                            aroundEntities.down = entity.eat(aroundEntities.down);
-                        }
-                        else if (aroundEntities.left instanceof Entity_1.Kiddo) {
-                            aroundEntities.left = entity.eat(aroundEntities.left);
-                        }
-                        else if (aroundEntities.right instanceof Entity_1.Kiddo) {
-                            aroundEntities.right = entity.eat(aroundEntities.right);
+                        const directions = ['up', 'down', 'left', 'right'];
+                        for (const direction of directions) {
+                            const kiddo = aroundEntities[direction];
+                            if (kiddo instanceof Entity_1.Kiddo) {
+                                const deadKiddo = entity.eat(kiddo);
+                                const index = this.data.indexOf(kiddo);
+                                this.data.splice(index, 1, deadKiddo);
+                                break;
+                            }
                         }
                     }
                 });
