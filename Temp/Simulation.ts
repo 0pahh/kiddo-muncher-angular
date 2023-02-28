@@ -1,4 +1,4 @@
-import { randomPosition } from '../utils/random';
+import { randomMove, randomPosition } from '../utils/random';
 import { Board } from './Board';
 import { Decor, DecorFactory } from './Decor';
 import { DeadKiddo, Entity, Kiddo, KiddoFactory, Ogre } from './Entity';
@@ -41,15 +41,31 @@ export class Simulation {
                         }
                     }
                     if (!hasMoved) {
-                        if (aroundEntities.up === null && entity.position.x > 0) {
-                            entity.move({ x: entity.position.x - 1, y: entity.position.y });
-                        } else if (aroundEntities.down === null && entity.position.x < this.board.nbRows - 1) {
-                            entity.move({ x: entity.position.x + 1, y: entity.position.y });
-                        } else if (aroundEntities.left === null && entity.position.y > 0) {
-                            entity.move({ x: entity.position.x, y: entity.position.y - 1 });
-                        } else if (aroundEntities.right === null && entity.position.y < this.board.nbCols - 1) {
-                            entity.move({ x: entity.position.x, y: entity.position.y + 1 });
+                        let forbiddenMoves: ('up' | 'down' | 'left' | 'right')[] = [];
+                        for (let id in aroundEntities) {
+                            if (aroundEntities[id] !== null)
+                                forbiddenMoves.push(id as 'up' | 'down' | 'left' | 'right');
                         }
+
+                        if (entity.position.x === 0) {
+                            forbiddenMoves.push('up');
+                        }
+                        if (entity.position.x === this.board.nbRows - 1) {
+                            forbiddenMoves.push('down');
+                        }
+                        if (entity.position.y === 0) {
+                            forbiddenMoves.push('left');
+                        }
+                        if (entity.position.y === this.board.nbCols - 1) {
+                            forbiddenMoves.push('right');
+                        }
+
+                        console.log(forbiddenMoves);
+
+                        let move = randomMove(entity.lastMove, forbiddenMoves);
+                        console.log(move);
+
+                        if (move) entity.move(move);
                     }
                 }
             });
@@ -64,7 +80,6 @@ export class Simulation {
                 }
                 this.board.console[data.position.x][data.position.y] = data.symbol;
             }
-            console.log(this.board.console);
         }
     };
 

@@ -37,18 +37,28 @@ class Simulation {
                             }
                         }
                         if (!hasMoved) {
-                            if (aroundEntities.up === null && entity.position.x > 0) {
-                                entity.move({ x: entity.position.x - 1, y: entity.position.y });
+                            let forbiddenMoves = [];
+                            for (let id in aroundEntities) {
+                                if (aroundEntities[id] !== null)
+                                    forbiddenMoves.push(id);
                             }
-                            else if (aroundEntities.down === null && entity.position.x < this.board.nbRows - 1) {
-                                entity.move({ x: entity.position.x + 1, y: entity.position.y });
+                            if (entity.position.x === 0) {
+                                forbiddenMoves.push('up');
                             }
-                            else if (aroundEntities.left === null && entity.position.y > 0) {
-                                entity.move({ x: entity.position.x, y: entity.position.y - 1 });
+                            if (entity.position.x === this.board.nbRows - 1) {
+                                forbiddenMoves.push('down');
                             }
-                            else if (aroundEntities.right === null && entity.position.y < this.board.nbCols - 1) {
-                                entity.move({ x: entity.position.x, y: entity.position.y + 1 });
+                            if (entity.position.y === 0) {
+                                forbiddenMoves.push('left');
                             }
+                            if (entity.position.y === this.board.nbCols - 1) {
+                                forbiddenMoves.push('right');
+                            }
+                            console.log(forbiddenMoves);
+                            let move = (0, random_1.randomMove)(entity.lastMove, forbiddenMoves);
+                            console.log(move);
+                            if (move)
+                                entity.move(move);
                         }
                     }
                 });

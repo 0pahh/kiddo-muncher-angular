@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.KiddoFactory = exports.DeadKiddo = exports.Kiddo = exports.Ogre = void 0;
 class Ogre {
     constructor() {
+        this.lastMove = null;
         this.symbol = 'O';
     }
     createInstance(position) {
@@ -12,12 +13,25 @@ class Ogre {
     }
     eat(kiddo) {
         const deadKiddo = new DeadKiddo(kiddo.position);
-        console.log("position", kiddo.position);
+        console.log('position', kiddo.position);
         // Set any additional properties of the DeadKiddo instance here, if needed
         return deadKiddo;
     }
-    move(position) {
-        this.position = position;
+    move(direction) {
+        switch (direction) {
+            case 'up':
+                this.position.x--;
+                break;
+            case 'down':
+                this.position.x++;
+                break;
+            case 'left':
+                this.position.y--;
+                break;
+            case 'right':
+                this.position.y++;
+                break;
+        }
     }
 }
 exports.Ogre = Ogre;
@@ -47,14 +61,13 @@ var DeadType;
 })(DeadType || (DeadType = {}));
 class Kiddo {
     constructor(position, movementType = MovementType.Random, displayType = DisplayType.Standard, symbol = 'K') {
+        this.lastMove = null;
         this.position = position;
         this.movementType = movementType;
         this.displayType = displayType;
         this.symbol = symbol;
     }
-    move(position) {
-        this.position = position;
-    }
+    move(direction) { }
     display() {
         // TODO: implémenter la logique d'affichage en fonction de displayType
     }
