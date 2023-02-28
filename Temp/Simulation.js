@@ -36,7 +36,10 @@ class Simulation {
                                 break;
                             }
                         }
+                        const os = "\u{1F9B4}"
+                        const bush = "\u{1FAB5}";
 
+                        console.log('\u{1FAB5}');
                         if (!hasMoved) {
                             const direction = Math.floor(Math.random() * 4);
                             switch (direction) {

@@ -114,6 +114,7 @@ export class KiddoFactory extends Creator {
             MovementType.MoveDown,
             MovementType.Stay,
         ];
+        
         const kiddosDisplayType = [
             DisplayType.Standard,
             DisplayType.Boy,
