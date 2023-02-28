@@ -1,16 +1,15 @@
 export interface Entity {
     position: { x: number; y: number };
-    lastDirection?: string;
+    lastMove: 'up' | 'down' | 'left' | 'right' | null;
     symbol: string;
-    move(position: { x: number; y: number }): void;
+    move(direction: 'up' | 'down' | 'left' | 'right'): void;
 }
 
 export class Ogre implements Entity {
     position!: { x: number; y: number };
-    lastDirection?: string;
-    symbol: string = 'O';
-    
-    
+    lastMove: 'up' | 'down' | 'left' | 'right' | null = null;
+    symbol: string = 'Ogre';
+
     createInstance(position: { x: number; y: number }): Ogre {
         const instance = new Ogre();
         instance.position = position;
@@ -19,44 +18,55 @@ export class Ogre implements Entity {
 
     eat(kiddo: Kiddo): DeadKiddo {
         const deadKiddo = new DeadKiddo(kiddo.position);
-        console.log("position", kiddo.position)
-        // Set any additional properties of the DeadKiddo instance here, if needed
         return deadKiddo;
     }
-    move(position: { x: number; y: number }) {
-        this.position = position;
+    move(direction: 'up' | 'down' | 'left' | 'right') {
+        switch (direction) {
+            case 'up':
+                this.position.x--;
+                break;
+            case 'down':
+                this.position.x++;
+                break;
+            case 'left':
+                this.position.y--;
+                break;
+            case 'right':
+                this.position.y++;
+                break;
+        }
     }
 }
 
 enum MovementType {
-    Random,
-    MoveRight,
-    MoveLeft,
-    MoveUp,
-    MoveDown,
-    Stay,
+    Random = 'random',
+    MoveRight = 'right',
+    MoveLeft = 'left',
+    MoveUp = 'up',
+    MoveDown = 'down',
+    Stay = 'stay',
 }
 
 enum DisplayType {
-    Standard = 'Standard',
-    Girl = 'Girl',
-    Boy = 'Boy',
-    Hat = 'Hat',
+    Standard = 'Enfant',
+    Girl = 'Fille',
+    Boy = 'Garçon',
+    Hat = 'Chapeau',
     Instrument = 'Instrument',
 }
 
 enum DeadType {
-    Nothing = 'Nothing',
-    Dust = 'Dust',
-    Fall = 'Fall',
-    Bones = 'Bones',
+    Nothing = ' ',
+    Dust = '*',
+    Fall = '+',
+    Bones = '%',
 }
 
 export class Kiddo implements Entity {
     position: { x: number; y: number };
     movementType: MovementType;
     displayType: DisplayType;
-    lastDirection?: string;
+    lastMove: 'up' | 'down' | 'left' | 'right' | null = null;
     symbol!: string;
 
     constructor(
@@ -71,8 +81,21 @@ export class Kiddo implements Entity {
         this.symbol = symbol;
     }
 
-    move(position: { x: number; y: number }) {
-        this.position = position;
+    move(direction: 'up' | 'down' | 'left' | 'right') {
+        switch (direction) {
+            case 'up':
+                this.position.x--;
+                break;
+            case 'down':
+                this.position.x++;
+                break;
+            case 'left':
+                this.position.y--;
+                break;
+            case 'right':
+                this.position.y++;
+                break;
+        }
     }
 
     display() {
@@ -86,6 +109,7 @@ export class DeadKiddo extends Kiddo {
     constructor(position: { x: number; y: number }) {
         super(position);
         this.deadType = this.attributeDeadType();
+        this.symbol = this.attributeDeadType();
     }
 
     display() {
@@ -101,7 +125,7 @@ export class DeadKiddo extends Kiddo {
 }
 
 export abstract class Creator {
-     abstract createInstance(position: {x: number, y: number}) : Kiddo
+    abstract createInstance(position: { x: number; y: number }): Kiddo;
 }
 
 export class KiddoFactory extends Creator {

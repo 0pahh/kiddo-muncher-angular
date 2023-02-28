@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.KiddoFactory = exports.DeadKiddo = exports.Kiddo = exports.Ogre = void 0;
+exports.KiddoFactory = exports.Creator = exports.DeadKiddo = exports.Kiddo = exports.Ogre = void 0;
 class Ogre {
     constructor() {
-        this.symbol = 'O';
+        this.lastMove = null;
+        this.symbol = 'Ogre';
     }
     createInstance(position) {
         const instance = new Ogre();
@@ -12,48 +13,73 @@ class Ogre {
     }
     eat(kiddo) {
         const deadKiddo = new DeadKiddo(kiddo.position);
-        console.log("position", kiddo.position);
-        // Set any additional properties of the DeadKiddo instance here, if needed
         return deadKiddo;
     }
-    move(position) {
-        this.position = position;
+    move(direction) {
+        switch (direction) {
+            case 'up':
+                this.position.x--;
+                break;
+            case 'down':
+                this.position.x++;
+                break;
+            case 'left':
+                this.position.y--;
+                break;
+            case 'right':
+                this.position.y++;
+                break;
+        }
     }
 }
 exports.Ogre = Ogre;
 var MovementType;
 (function (MovementType) {
-    MovementType[MovementType["Random"] = 0] = "Random";
-    MovementType[MovementType["MoveRight"] = 1] = "MoveRight";
-    MovementType[MovementType["MoveLeft"] = 2] = "MoveLeft";
-    MovementType[MovementType["MoveUp"] = 3] = "MoveUp";
-    MovementType[MovementType["MoveDown"] = 4] = "MoveDown";
-    MovementType[MovementType["Stay"] = 5] = "Stay";
+    MovementType["Random"] = "random";
+    MovementType["MoveRight"] = "right";
+    MovementType["MoveLeft"] = "left";
+    MovementType["MoveUp"] = "up";
+    MovementType["MoveDown"] = "down";
+    MovementType["Stay"] = "stay";
 })(MovementType || (MovementType = {}));
 var DisplayType;
 (function (DisplayType) {
-    DisplayType["Standard"] = "Standard";
-    DisplayType["Girl"] = "Girl";
-    DisplayType["Boy"] = "Boy";
-    DisplayType["Hat"] = "Hat";
+    DisplayType["Standard"] = "Enfant";
+    DisplayType["Girl"] = "Fille";
+    DisplayType["Boy"] = "Gar\u00E7on";
+    DisplayType["Hat"] = "Chapeau";
     DisplayType["Instrument"] = "Instrument";
 })(DisplayType || (DisplayType = {}));
 var DeadType;
 (function (DeadType) {
-    DeadType["Nothing"] = "Nothing";
-    DeadType["Dust"] = "Dust";
-    DeadType["Fall"] = "Fall";
-    DeadType["Bones"] = "Bones";
+    DeadType["Nothing"] = " ";
+    DeadType["Dust"] = "*";
+    DeadType["Fall"] = "+";
+    DeadType["Bones"] = "%";
 })(DeadType || (DeadType = {}));
 class Kiddo {
     constructor(position, movementType = MovementType.Random, displayType = DisplayType.Standard, symbol = 'K') {
+        this.lastMove = null;
         this.position = position;
         this.movementType = movementType;
         this.displayType = displayType;
         this.symbol = symbol;
     }
-    move(position) {
-        this.position = position;
+    move(direction) {
+        switch (direction) {
+            case 'up':
+                this.position.x--;
+                break;
+            case 'down':
+                this.position.x++;
+                break;
+            case 'left':
+                this.position.y--;
+                break;
+            case 'right':
+                this.position.y++;
+                break;
+        }
     }
     display() {
         // TODO: implémenter la logique d'affichage en fonction de displayType
@@ -65,6 +91,7 @@ class DeadKiddo extends Kiddo {
         super(position);
         this.symbol = 'X';
         this.deadType = this.attributeDeadType();
+        this.symbol = this.attributeDeadType();
     }
     display() {
         // TODO: implémenter la logique d'affichage en fonction de deadType
@@ -76,7 +103,10 @@ class DeadKiddo extends Kiddo {
     }
 }
 exports.DeadKiddo = DeadKiddo;
-class KiddoFactory {
+class Creator {
+}
+exports.Creator = Creator;
+class KiddoFactory extends Creator {
     createInstance(position) {
         const kiddosMovementsType = [
             MovementType.Random,
