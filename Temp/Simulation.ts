@@ -71,7 +71,7 @@ export class Simulation {
             });
             this.board.console = this.board.generateBlankConsole();
             for (let data of this.data) {
-                if (data instanceof DeadKiddo) {
+                if (data instanceof DeadKiddo || (data instanceof Decor && !data.traversable)) {
                     let existingEntity = this.data.find(
                         (entity) => entity.position.x === data.position.x && entity.position.y === data.position.y,
                     );
