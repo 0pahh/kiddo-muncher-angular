@@ -48,18 +48,19 @@ enum MovementType {
 }
 
 enum DisplayType {
-    Standard = 'Enfant',
-    Girl = 'Fille',
-    Boy = 'Garçon',
-    Hat = 'Chapeau',
-    Instrument = 'Instrument',
+    Standard = '\u{1F6B6}',
+    Girl = '\u{FE0F}',
+    Boy = '\u{FE0F}',
+    Hat = '\u{1F9AF}',
+    Instrument = '\u{1F3C3}',
 }
+const EmptyCase = '\u{1FADA}'; // pour les case null
 
 enum DeadType {
-    Nothing = ' ',
-    Dust = '*',
-    Fall = '+',
-    Bones = '%',
+    Nothing = '\u{1F969}',
+    Dust = '\u{1F47E}',
+    Fall = '\u{1F47B}',
+    Bones = '\u{1F9B4}',
 }
 
 export class Kiddo implements Entity {
@@ -138,7 +139,7 @@ export class KiddoFactory extends Creator {
             MovementType.MoveDown,
             MovementType.Stay,
         ];
-        
+
         const kiddosDisplayType = [
             DisplayType.Standard,
             DisplayType.Boy,

@@ -1,10 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.KiddoFactory = exports.Creator = exports.DeadKiddo = exports.Kiddo = exports.Ogre = void 0;
 class Ogre {
     constructor() {
         this.lastMove = null;
-        this.symbol = 'Ogre';
+        this.symbol = '\u{1F479}';
     }
     createInstance(position) {
         const instance = new Ogre();
@@ -35,27 +35,27 @@ class Ogre {
 exports.Ogre = Ogre;
 var MovementType;
 (function (MovementType) {
-    MovementType["Random"] = "random";
-    MovementType["MoveRight"] = "right";
-    MovementType["MoveLeft"] = "left";
-    MovementType["MoveUp"] = "up";
-    MovementType["MoveDown"] = "down";
-    MovementType["Stay"] = "stay";
+    MovementType['Random'] = 'random';
+    MovementType['MoveRight'] = 'right';
+    MovementType['MoveLeft'] = 'left';
+    MovementType['MoveUp'] = 'up';
+    MovementType['MoveDown'] = 'down';
+    MovementType['Stay'] = 'stay';
 })(MovementType || (MovementType = {}));
 var DisplayType;
 (function (DisplayType) {
-    DisplayType["Standard"] = "Enfant";
-    DisplayType["Girl"] = "Fille";
-    DisplayType["Boy"] = "Gar\u00E7on";
-    DisplayType["Hat"] = "Chapeau";
-    DisplayType["Instrument"] = "Instrument";
+    DisplayType['Standard'] = 'Enfant';
+    DisplayType['Girl'] = 'Fille';
+    DisplayType['Boy'] = 'Gar\u00E7on';
+    DisplayType['Hat'] = 'Chapeau';
+    DisplayType['Instrument'] = 'Instrument';
 })(DisplayType || (DisplayType = {}));
 var DeadType;
 (function (DeadType) {
-    DeadType["Nothing"] = " ";
-    DeadType["Dust"] = "*";
-    DeadType["Fall"] = "+";
-    DeadType["Bones"] = "%";
+    DeadType['Nothing'] = ' ';
+    DeadType['Dust'] = '*';
+    DeadType['Fall'] = '+';
+    DeadType['Bones'] = '%';
 })(DeadType || (DeadType = {}));
 class Kiddo {
     constructor(position, movementType = MovementType.Random, displayType = DisplayType.Standard, symbol = 'K') {
@@ -103,8 +103,7 @@ class DeadKiddo extends Kiddo {
     }
 }
 exports.DeadKiddo = DeadKiddo;
-class Creator {
-}
+class Creator {}
 exports.Creator = Creator;
 class KiddoFactory extends Creator {
     createInstance(position) {
