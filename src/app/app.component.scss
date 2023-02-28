@@ -1,0 +1,34 @@
+// Set variables for board size and tile size
+$board-size: 400px;
+$tile-size: $board-size / 6;
+
+// Set variables for tile colors
+$light-tile: #f2f2f2;
+$dark-tile: #808080;
+
+// Create the board container element
+.board {
+  width: $board-size;
+  height: $board-size;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+// Create the tile elements and assign colors
+.tile {
+  width: $tile-size;
+  height: $tile-size;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: $tile-size / 2;
+
+  &:nth-child(even) {
+    background-color: $dark-tile;
+  }
+
+  &:nth-child(odd) {
+    background-color: $light-tile;
+  }
+}
