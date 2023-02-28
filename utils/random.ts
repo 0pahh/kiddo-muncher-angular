@@ -22,18 +22,23 @@ export const randomPosition = (board: Board): { x: number | null; y: number | nu
 export const randomMove = (
     lastMove: 'up' | 'down' | 'left' | 'right' | null,
     forbiddenMoves: ('up' | 'down' | 'left' | 'right')[],
+    priority?: 'up' | 'down' | 'left' | 'right',
 ): 'up' | 'down' | 'left' | 'right' => {
-    let moves: ('up' | 'down' | 'left' | 'right')[] = ['up', 'down', 'left', 'right']; // list of possible moves
-    moves = moves.filter((move) => !forbiddenMoves.includes(move)); // remove forbidden moves from the list of possible moves
+    if (priority !== undefined && !forbiddenMoves.includes(priority)) {
+        return priority;
+    } else {
+        let moves: ('up' | 'down' | 'left' | 'right')[] = ['up', 'down', 'left', 'right']; // list of possible moves
+        moves = moves.filter((move) => !forbiddenMoves.includes(move)); // remove forbidden moves from the list of possible moves
 
-    if (lastMove === null) return moves[Math.floor(Math.random() * moves.length)]; // if lastMove is null, return a random move
+        if (lastMove === null) return moves[Math.floor(Math.random() * moves.length)]; // if lastMove is null, return a random move
 
-    const currentIndex: number = moves.indexOf(lastMove); // get the index of the last move
-    if (currentIndex !== -1) {
-        // if lastMove is not null
-        moves.splice(currentIndex, 1); // remove last move from the list of possible moves
+        const currentIndex: number = moves.indexOf(lastMove); // get the index of the last move
+        if (currentIndex !== -1) {
+            // if lastMove is not null
+            moves.splice(currentIndex, 1); // remove last move from the list of possible moves
+        }
+        const randomIndex: number = Math.floor(Math.random() * moves.length);
+        lastMove = moves[randomIndex];
+        return lastMove;
     }
-    const randomIndex: number = Math.floor(Math.random() * moves.length);
-    lastMove = moves[randomIndex];
-    return lastMove;
 };

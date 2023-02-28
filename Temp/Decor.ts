@@ -1,7 +1,7 @@
 enum DecorSymbol {
     Tree = 'Arbre',
     Rock = 'Rocher',
-    Water = 'Eau',
+    Water = '💧',
     Bridge = 'Pont',
     Ground = 'Sol',
 }

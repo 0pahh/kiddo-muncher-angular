@@ -40,10 +40,11 @@ export class Simulation {
                             break;
                         }
                     }
+
                     if (!hasMoved) {
                         let forbiddenMoves: ('up' | 'down' | 'left' | 'right')[] = [];
                         for (let id in aroundEntities) {
-                            if (aroundEntities[id] !== null)
+                            if (aroundEntities[id] !== null && aroundEntities[id] instanceof Decor)
                                 forbiddenMoves.push(id as 'up' | 'down' | 'left' | 'right');
                         }
 
@@ -60,26 +61,60 @@ export class Simulation {
                             forbiddenMoves.push('right');
                         }
 
-                        console.log(forbiddenMoves);
-
-                        let move = randomMove(entity.lastMove, forbiddenMoves);
-                        console.log(move);
+                        let move = randomMove(entity.lastMove, forbiddenMoves); // Get a random move because the ogre is random
 
                         if (move) entity.move(move);
                     }
                 }
+                if (entity instanceof Kiddo) {
+                    let aroundEntities = this.getEntitiesAround(entity); // Get entities around the kiddo
+
+                    if (entity.movementType === 'stay') return;
+
+                    let forbiddenMoves: ('up' | 'down' | 'left' | 'right')[] = [];
+                    for (let id in aroundEntities) {
+                        if (aroundEntities[id] !== null && aroundEntities[id] instanceof Decor)
+                            forbiddenMoves.push(id as 'up' | 'down' | 'left' | 'right');
+                    }
+
+                    if (entity.position.x === 0) {
+                        forbiddenMoves.push('up');
+                    }
+                    if (entity.position.x === this.board.nbRows - 1) {
+                        forbiddenMoves.push('down');
+                    }
+                    if (entity.position.y === 0) {
+                        forbiddenMoves.push('left');
+                    }
+                    if (entity.position.y === this.board.nbCols - 1) {
+                        forbiddenMoves.push('right');
+                    }
+
+                    let move;
+                    if (entity.movementType === 'random') {
+                        move = randomMove(entity.lastMove, forbiddenMoves); // Get a random move because the ogre is random
+                    } else move = randomMove(entity.lastMove, forbiddenMoves, entity.movementType); // Get a random move because the ogre is random
+
+                    if (move) entity.move(move);
+                }
             });
             this.board.console = this.board.generateBlankConsole();
             for (let data of this.data) {
-                if (data instanceof DeadKiddo || (data instanceof Decor && !data.traversable)) {
+                if (data instanceof DeadKiddo || (data instanceof Decor && data.traversable)) {
                     let existingEntity = this.data.find(
-                        (entity) => entity.position.x === data.position.x && entity.position.y === data.position.y,
+                        (entity) =>
+                            entity.position.x === data.position.x &&
+                            entity.position.y === data.position.y &&
+                            entity !== data,
                     );
                     if (existingEntity) continue;
-                    else this.board.console[data.position.x][data.position.y] = data.symbol;
+                    else {
+                        this.board.console[data.position.x][data.position.y] = data.symbol;
+                    }
                 }
                 this.board.console[data.position.x][data.position.y] = data.symbol;
             }
+            console.table(this.board.console);
         }
     };
 

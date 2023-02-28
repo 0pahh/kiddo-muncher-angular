@@ -8,9 +8,8 @@ export interface Entity {
 export class Ogre implements Entity {
     position!: { x: number; y: number };
     lastMove: 'up' | 'down' | 'left' | 'right' | null = null;
-    symbol: string = 'O';
-    
-    
+    symbol: string = 'Ogre';
+
     createInstance(position: { x: number; y: number }): Ogre {
         const instance = new Ogre();
         instance.position = position;
@@ -19,8 +18,6 @@ export class Ogre implements Entity {
 
     eat(kiddo: Kiddo): DeadKiddo {
         const deadKiddo = new DeadKiddo(kiddo.position);
-        console.log('position', kiddo.position);
-        // Set any additional properties of the DeadKiddo instance here, if needed
         return deadKiddo;
     }
     move(direction: 'up' | 'down' | 'left' | 'right') {
@@ -42,27 +39,27 @@ export class Ogre implements Entity {
 }
 
 enum MovementType {
-    Random,
-    MoveRight,
-    MoveLeft,
-    MoveUp,
-    MoveDown,
-    Stay,
+    Random = 'random',
+    MoveRight = 'right',
+    MoveLeft = 'left',
+    MoveUp = 'up',
+    MoveDown = 'down',
+    Stay = 'stay',
 }
 
 enum DisplayType {
-    Standard = 'Standard',
-    Girl = 'Girl',
-    Boy = 'Boy',
-    Hat = 'Hat',
+    Standard = 'Enfant',
+    Girl = 'Fille',
+    Boy = 'Garçon',
+    Hat = 'Chapeau',
     Instrument = 'Instrument',
 }
 
 enum DeadType {
-    Nothing = 'Nothing',
-    Dust = 'Dust',
-    Fall = 'Fall',
-    Bones = 'Bones',
+    Nothing = ' ',
+    Dust = '*',
+    Fall = '+',
+    Bones = '%',
 }
 
 export class Kiddo implements Entity {
@@ -84,7 +81,22 @@ export class Kiddo implements Entity {
         this.symbol = symbol;
     }
 
-    move(direction: 'up' | 'down' | 'left' | 'right') {}
+    move(direction: 'up' | 'down' | 'left' | 'right') {
+        switch (direction) {
+            case 'up':
+                this.position.x--;
+                break;
+            case 'down':
+                this.position.x++;
+                break;
+            case 'left':
+                this.position.y--;
+                break;
+            case 'right':
+                this.position.y++;
+                break;
+        }
+    }
 
     display() {
         // TODO: implémenter la logique d'affichage en fonction de displayType
@@ -97,6 +109,7 @@ export class DeadKiddo extends Kiddo {
     constructor(position: { x: number; y: number }) {
         super(position);
         this.deadType = this.attributeDeadType();
+        this.symbol = this.attributeDeadType();
     }
 
     display() {
@@ -112,7 +125,7 @@ export class DeadKiddo extends Kiddo {
 }
 
 export abstract class Creator {
-     abstract createInstance(position: {x: number, y: number}) : Kiddo
+    abstract createInstance(position: { x: number; y: number }): Kiddo;
 }
 
 export class KiddoFactory extends Creator {

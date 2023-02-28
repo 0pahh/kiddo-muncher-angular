@@ -5,7 +5,7 @@ var DecorSymbol;
 (function (DecorSymbol) {
     DecorSymbol["Tree"] = "Arbre";
     DecorSymbol["Rock"] = "Rocher";
-    DecorSymbol["Water"] = "Eau";
+    DecorSymbol["Water"] = "\uD83D\uDCA7";
     DecorSymbol["Bridge"] = "Pont";
     DecorSymbol["Ground"] = "Sol";
 })(DecorSymbol || (DecorSymbol = {}));
@@ -32,7 +32,9 @@ class NonBlocking extends DecorType {
         super(type, true);
     }
 }
-class DecorFactory {
+class CreatorDecorFac {
+}
+class DecorFactory extends CreatorDecorFac {
     createInstance(position) {
         const blockingTypes = [DecorSymbol.Tree, DecorSymbol.Rock, DecorSymbol.Water];
         const nonBlockingTypes = [DecorSymbol.Bridge, DecorSymbol.Ground];
