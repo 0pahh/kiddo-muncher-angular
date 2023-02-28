@@ -46,9 +46,11 @@ export class Simulation {
           if (!hasMoved) {
             const forbiddenMoves: ('up' | 'down' | 'left' | 'right')[] = [];
             for (const id in aroundEntities) {
+              const entity = aroundEntities[id];
               if (
-                aroundEntities[id] !== null &&
-                aroundEntities[id] instanceof Decor
+                entity !== null &&
+                ((entity instanceof Decor && !entity.traversable) ||
+                  (entity instanceof Kiddo && !(entity instanceof DeadKiddo)))
               )
                 forbiddenMoves.push(id as 'up' | 'down' | 'left' | 'right');
             }
@@ -71,16 +73,18 @@ export class Simulation {
             if (move) entity.move(move);
           }
         }
-        if (entity instanceof Kiddo && entity instanceof DeadKiddo === false) {
+        if (entity instanceof Kiddo && !(entity instanceof DeadKiddo)) {
           const aroundEntities = this.getEntitiesAround(entity); // Get entities around the kiddo
-
+          console.log(aroundEntities);
           if (entity.movementType === 'stay') return;
 
           const forbiddenMoves: ('up' | 'down' | 'left' | 'right')[] = [];
           for (const id in aroundEntities) {
+            const entity = aroundEntities[id];
             if (
-              aroundEntities[id] !== null &&
-              aroundEntities[id] instanceof Decor
+              entity !== null &&
+              ((entity instanceof Decor && !entity.traversable) ||
+                entity instanceof Ogre)
             )
               forbiddenMoves.push(id as 'up' | 'down' | 'left' | 'right');
           }
@@ -121,8 +125,10 @@ export class Simulation {
               (entity) => entity instanceof Ogre
             );
             const kiddo = entitiesOnCase.find(
-              (entity) => entity instanceof Kiddo
+              (entity) =>
+                entity instanceof Kiddo && !(entity instanceof DeadKiddo)
             );
+
             if (ogre) {
               this.board.console[data.position.x][data.position.y] =
                 ogre.symbol;
