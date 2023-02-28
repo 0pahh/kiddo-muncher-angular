@@ -3,11 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Decor = exports.DecorFactory = void 0;
 var DecorSymbol;
 (function (DecorSymbol) {
-    DecorSymbol["Tree"] = "Arbre";
-    DecorSymbol["Rock"] = "Rocher";
+    DecorSymbol["Tree"] = "\uD83C\uDF33";
+    DecorSymbol["Rock"] = "\uD83D\uDDFB";
     DecorSymbol["Water"] = "\uD83D\uDCA7";
-    DecorSymbol["Bridge"] = "Pont";
-    DecorSymbol["Ground"] = "Sol";
+    DecorSymbol["Bridge"] = "\uD83C\uDF09";
+    DecorSymbol["Ground"] = "\uD83C\uDF9F";
 })(DecorSymbol || (DecorSymbol = {}));
 class DecorType {
     constructor(symbol, traversable) {

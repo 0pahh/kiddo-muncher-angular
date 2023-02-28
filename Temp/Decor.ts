@@ -2,7 +2,7 @@ enum DecorSymbol {
     Tree = '\u{1F333}',
     Rock = '\u{1F5FB}',
     Water = '\u{1F4A7}',
-    Bridge = '{\u1F309}',
+    Bridge = '\u{1F309}',
     Ground = '\u{1F39F}',
 }
 

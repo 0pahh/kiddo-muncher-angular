@@ -8,7 +8,7 @@ export interface Entity {
 export class Ogre implements Entity {
     position!: { x: number; y: number };
     lastMove: 'up' | 'down' | 'left' | 'right' | null = null;
-    symbol: string = 'Ogre';
+    symbol: string = '👹';
 
     createInstance(position: { x: number; y: number }): Ogre {
         const instance = new Ogre();
@@ -48,19 +48,18 @@ enum MovementType {
 }
 
 enum DisplayType {
-    Standard = '\u{1F6B6}',
-    Girl = '\u{FE0F}',
-    Boy = '\u{FE0F}',
-    Hat = '\u{1F9AF}',
-    Instrument = '\u{1F3C3}',
+    Standard = '👶',
+    Girl = '👧',
+    Boy = '👦',
+    Hat = '🤠',
+    Instrument = '🧑‍🎤',
 }
-const EmptyCase = '\u{1FADA}'; // pour les case null
 
 enum DeadType {
-    Nothing = '\u{1F969}',
-    Dust = '\u{1F47E}',
-    Fall = '\u{1F47B}',
-    Bones = '\u{1F9B4}',
+    Nothing = '👻',
+    Dust = '🌫️',
+    Fall = '💩', //
+    Bones = '🦴', //
 }
 
 export class Kiddo implements Entity {

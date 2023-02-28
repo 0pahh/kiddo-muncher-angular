@@ -114,7 +114,16 @@ export class Simulation {
                 }
                 this.board.console[data.position.x][data.position.y] = data.symbol;
             }
-            console.table(this.board.console);
+
+            let test = '';
+            for (let line of this.board.console) {
+                for (let char of line) {
+                    if (char === null) char = ' ';
+                    test += char;
+                }
+                test += '\n';
+            }
+            console.log(test);
         }
     };
 
@@ -176,6 +185,4 @@ export class Simulation {
         }, {} as Record<string, Entity | Decor | null>);
         return entities;
     };
-
-    newTurn = (): void => {};
 }
