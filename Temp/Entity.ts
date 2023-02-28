@@ -9,7 +9,8 @@ export class Ogre implements Entity {
     position!: { x: number; y: number };
     lastMove: 'up' | 'down' | 'left' | 'right' | null = null;
     symbol: string = 'O';
-
+    
+    
     createInstance(position: { x: number; y: number }): Ogre {
         const instance = new Ogre();
         instance.position = position;
@@ -110,7 +111,11 @@ export class DeadKiddo extends Kiddo {
     }
 }
 
-export class KiddoFactory {
+export abstract class Creator {
+     abstract createInstance(position: {x: number, y: number}) : Kiddo
+}
+
+export class KiddoFactory extends Creator {
     public createInstance(position: { x: number; y: number }): Kiddo {
         const kiddosMovementsType = [
             MovementType.Random,

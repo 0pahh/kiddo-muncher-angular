@@ -36,7 +36,11 @@ class NonBlocking extends DecorType {
     }
 }
 
-export class DecorFactory {
+abstract class CreatorDecorFac {
+    abstract createInstance(position: { x: number; y: number }): Decor;
+}
+
+export class DecorFactory extends CreatorDecorFac {
     public createInstance(position: { x: number; y: number }): Decor {
         const blockingTypes = [DecorSymbol.Tree, DecorSymbol.Rock, DecorSymbol.Water];
         const nonBlockingTypes = [DecorSymbol.Bridge, DecorSymbol.Ground];
