@@ -1,4 +1,5 @@
-<div class="board">
+<button (click)="startSimulation()">Start</button>
+<div class="board" *ngIf="start">
   <ng-container *ngFor="let row of simulation2">
     <div class="tile" *ngFor="let cell of row">{{ cell }}</div>
   </ng-container>
